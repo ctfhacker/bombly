@@ -1146,6 +1146,10 @@ class PasswordRule(CompoundRule):
         for word in possibles:
             engine.speak(word)
 
+class BombDoneRule(CompoundRule):
+    spec = "bome done"                  # Spoken form of command.
+    def _process_recognition(self, node, extras):   # Callback when command is spoken.
+        engine.speak("I AM YOUR BOMB DEFUSING OVERLORD")
 
 # Create a grammar which contains and loads the command rule.
 grammar = Grammar("Keep Talking")                # Create a grammar to contain the command rule.
@@ -1175,4 +1179,5 @@ grammar.add_rule(WordsRule())                     # Add the command rule to the 
 grammar.add_rule(WordsResetRule())                     # Add the command rule to the grammar.
 grammar.add_rule(WordsRemoveRule())                     # Add the command rule to the grammar.
 grammar.add_rule(PasswordRule())                     # Add the command rule to the grammar.
+grammar.add_rule(BombDoneRule())
 grammar.load()
