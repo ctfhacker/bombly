@@ -1131,12 +1131,20 @@ class WordsRule(CompoundRule):
         """
 
 class PasswordRule(CompoundRule):
+    spec = "password reset"                  # Spoken form of command.
+    def _process_recognition(self, node, extras):   # Callback when command is spoken.
+        global curr_password
+        curr_password = []
+
+class PasswordRule(CompoundRule):
     spec = "password <letters>"                  # Spoken form of command.
     extras = [Dictation("letters")]
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
+        global curr_password
         letters = str(extras['letters'])
         letters = [letter[0].lower() for letter in letters.split()]
         curr_password.append(letters)
+        print curr_password
 
         passwords = ['about',
         'after', 'again', 'below', 'could', 'every', 'first', 'found', 'great',
@@ -1151,7 +1159,8 @@ class PasswordRule(CompoundRule):
                 if password[0] in curr_password[0] and password[2] in curr_password[1]:
                     possibles.append(password)
 
-        print possibles
+            print possibles
+
         for word in possibles:
             engine.speak(word)
 
