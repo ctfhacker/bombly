@@ -77,13 +77,15 @@ Seperate each wire from left to right with `next`. `blank` is the reserved word 
 Example:
 
 ```
-complex wires red next blue star next light red blue star next blank
-
 4 Wires:
 Red
 Blue with Star
 Red/Blue with Light/Star
 No attributes
+```
+
+```
+complex wires red next blue star next light red blue star next blank
 ```
 
 ### Maze
@@ -101,6 +103,10 @@ X O X X
 X X X X
 S X X X
 X X X F
+
+Indicator - (2, 1)
+Start     - (1, 3)
+Finish    - (4, 4)
 ```
 
 ```
@@ -138,7 +144,7 @@ Example:
 ```
 
 ```
-wire sequence blue apple red blue black charlie
+wire sequence blue apple red bravo black charlie
 ```
 
 If two wire sequences in the same bomb, be sure to reset the wire sequence state between sequences.
@@ -218,37 +224,37 @@ morse reset
 symbols <symbols>
 ```
 
-![column1](images/column1)
+![column1](https://raw.githubusercontent.com/thebarbershopper/bombly/master/images/column1.png)
 
 ```
 tennis, a, l, lightning, kitty, h, c
 ```
 
-![column2](images/column2)
+![column2](https://raw.githubusercontent.com/thebarbershopper/bombly/master/images/column2.png)
 
 ```
 e, tennis, c, o, star, h, question
 ```
 
-![column3](images/column3)
+![column3](https://raw.githubusercontent.com/thebarbershopper/bombly/master/images/column3.png)
 
 ```
 copyright, butt, o, k, r, l, star
 ```
 
-![column4](images/column4)
+![column4](https://raw.githubusercontent.com/thebarbershopper/bombly/master/images/column4.png)
 
 ```
 six, paragraph, b, kitty, k, question, smile
 ```
 
-![column5](images/column5)
+![column5](https://raw.githubusercontent.com/thebarbershopper/bombly/master/images/column5.png)
 
 ```
 goblet, smile, b, c, paragraph, three, star
 ```
 
-![column6](images/column6)
+![column6](https://raw.githubusercontent.com/thebarbershopper/bombly/master/images/column6.png)
 
 ```
 six, e, equals, smash, goblet, n, omega
@@ -256,7 +262,7 @@ six, e, equals, smash, goblet, n, omega
 
 ### Who's on First
 
-Now for the fun module. This was is still a work in progress (check out the code for all of the cases)
+Now for the fun module. This is still a work in progress (check out the code for all of the cases)
 
 ```
 words one <words> - Step 1 of Who's on First, lookup position
@@ -269,71 +275,62 @@ words two <words> - Step 2 of Who's on First, start giving words from lookup tab
 Below is the table of what spoken words coorelate to the words necessary to complete the challenge.
 
 ```
-you are words: you are
-your words: you are
-done: done
-don: done
-you are letters: ur
-sure: sure
-shore: sure
-you word: you
-hold: hold
-you letter: u
-yes: yes
-first: first
-display: display
-okay: okay
-OK: okay
-says: says
-nothing: nothing
-literally blank:
-blank: blank
-no: no
-L. E. D.: led
-lead: lead
-mead: lead
-read: read
-red short: red
-read too: reed
-hold on two: hold on
-you're word: your
-your word: your
-your mark: you're
-you are marked: you're
-you are mark: you're
-c s: see
-they are words: they are
-e i r: their
-e r e: there
-they are marked: they're
-they mark: they're
-c s : see
-c letter: c
-see letter: c
-c c : cee
-ready: ready
-yes: yes
-what no mark: what
-three h: uhhh
-left: left
-right: right
-write: right
-middle: middle
-metal: middle
-wait: wait
-press: press
-five letters: uh huh
-four letters: uh uh
-what mark: what?
-done: done
-next: next
-hold: hold
-sure: sure
-like: like
-mike: like
-might: like
-white: like
-light: like
+' ' - literally blank
+blank - blank
+c - c letter
+c - see letter
+cee - c c 
+display - display
+done - don
+done - done
+done - done
+first - first
+hold - hold
+hold - hold
+hold on - hold on two
+lead - lead
+lead - mead
+led - L. E. D.
+left - left
+like - like
+middle - middle
+next - next
+no - no
+nothing - nothing
+okay - OK
+okay - okay
+press - press
+read - read
+ready - ready
+red - red short
+reed - read too
+right - right
+right - write
+says - says
+see - c s 
+sure - sure
+their - e i r
+there - e r e
+they are - they are words
+they're - they are marked
+they're - they mark
+u - you letter
+uh huh - five letters
+uh uh - four letters
+uhhh - three h
+ur - you are letters
+wait - wait
+what - what no mark
+what? - what mark
+yes - yes
+yes - yes
+you - you word
+you are - you are words
+you are - your words
+you're - you are mark
+you're - your mark
+your - you're word
+your - your word
 ```
 
 ### Needy knobs
