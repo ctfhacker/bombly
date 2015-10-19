@@ -57,7 +57,7 @@ bomb status - Print current values of global attributes
 ### Simple Wires
 
 ```
-simple wires <wires> - Where wires is in (red, blue, yellow, black, white, yellow)
+simple wires <wires> - Where wires is in (red, blue, yellow, black, white)
 ```
 
 Example:
