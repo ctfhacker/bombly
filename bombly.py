@@ -1147,9 +1147,44 @@ class PasswordRule(CompoundRule):
             engine.speak(word)
 
 class BombDoneRule(CompoundRule):
-    spec = "bome done"                  # Spoken form of command.
+    spec = "bomb done"                  # Spoken form of command.
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
         engine.speak("I AM YOUR BOMB DEFUSING OVERLORD")
+
+        global batteries
+        global freak
+        global car
+        global paralle
+        global serial
+        global vowel
+        global counts
+        global values
+        global positions
+        global curr_stage
+        global morse_letters
+        global on_first_words
+
+        # Battery characteristics
+        batteries = 99
+        freak = 'freak'
+        car = 'car'
+        parallel = 'parallel'
+        serial = 'serial'
+        vowel = 'vowel'
+
+        # Wire sequence
+        counts = defaultdict(int) 
+
+        # Memory
+        values = []
+        positions = []
+        curr_stage = 1
+
+        # Morse
+        morse_letters = []
+
+        # On First Words
+        on_first_words = []
 
 # Create a grammar which contains and loads the command rule.
 grammar = Grammar("Keep Talking")                # Create a grammar to contain the command rule.
