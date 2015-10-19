@@ -30,7 +30,7 @@ Start the bot
 python dfly-loader-wsr.py
 ```
 
-I believe dragonfly should work with Dragon NaturrallySpeaking, however, I did not use it.
+I believe dragonfly should work with Dragon NaturallySpeaking, however, I did not use it.
 
 ## Commands available
 
