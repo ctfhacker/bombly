@@ -1087,6 +1087,62 @@ class WordsRule(CompoundRule):
             "like": ["you're", "next", "u", "ur", "hold", "uh uh", "what?", "uh huh", "you", "like"],
         }
 
+        responses = {
+            "you are": ("you" "are", "words"),
+            "done": ("done",),
+            "ur": ("you", "are", "letters"),
+            "sure": ("sure",),
+            "you": ("you", "word"),
+            "hold": ("hold",),
+            "u": ("you", "letter"),
+            "yes": ("yes",),
+            "first": ("first",),
+            "display": ("display",),
+            "okay": ("okay",),
+            "okay": ("OK",),
+            "says": ("says",),
+            "nothing": ("nothing",),
+            " ": ("literally", "blank"),
+            "blank": ("blank",),
+            "no": ("no",),
+            "led": ("L.", "E.", "D."),
+            "lead": ("lead",),
+            "lead": ("mead",),
+            "read": ("read",),
+            "red": ("red", "short"),
+            "reed": ("read", "too"),
+            "hold on": ("hold", "on", "two"),
+            "your": ("you"re", "word"),
+            "your": ("your", "word"),
+            "you're": ("you", "are", "mark"),
+            "see": ("C.", "S."),
+            "they are": ("they", "are", "words"),
+            "their": ("E.", "I.", "R."),
+            "there": ("E.", "R.", "E."),
+            "they're": ("they", "are", "marked"),
+            "see": ("s e e"),
+            "c": ("see", "letter"),
+            "cee": ("C.", "C."),
+            "cee": ("CC",),
+            "ready": ("ready",),
+            "yes": ("yes",),
+            "what": ("what", "no", "mark"),
+            "uhhh": ("three", "H."),
+            "left": ("left",),
+            "right": ("right",),
+            "right": ("write",),
+            "middle": ("middle",),
+            "wait": ("wait",),
+            "press": ("press",),
+            "uh huh": ("five", "letters"),
+            "uh uh": ("four", "letters"),
+            "what?": ("what", "mark"),
+            "done": ("done",),
+            "next": ("next",),
+            "hold": ("hold",),
+            "sure": ("sure",),
+            "like": ("like",),
+        }
         print words
 
         for combo, select in sorted(combos.iteritems(), key=lambda x: len(x[0])):
@@ -1104,31 +1160,10 @@ class WordsRule(CompoundRule):
                     wordlist = table[select]
                     answer = []
                     for word in wordlist[:5]:
-                        for key, val in combos.iteritems():
-                            if word == val:
-                                answer.append(' '.join(key))
+                        answer.append(responses[word])
 
                     engine.speak(', '.join(answer))
-
                 break
-
-        
-        """
-        print "Current Who's On First: {}".format(on_first_words)
-        if len(on_first_words) == 7:
-            lookup = on_first_words[0]
-            print lookup
-            position = positions[lookup]
-            print position
-            table_word = on_first_words[position]
-
-            print table_word
-            print table[table_word]
-            for word in table[table_word]:
-                if word in on_first_words[1:]:
-                    index = on_first_words.index(word)
-                    engine.speak(str(index))
-        """
 
 class PasswordRule(CompoundRule):
     spec = "password reset"                  # Spoken form of command.
