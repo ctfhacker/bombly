@@ -535,7 +535,7 @@ class ComplexWiresRule(CompoundRule):
                     total += value
 
             
-            is answer == 'cut nothing':
+            if answer == 'cut nothing':
                 answer = 'cut '
             
             if meaning[total] == 'cut':
