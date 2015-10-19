@@ -2,7 +2,7 @@
 
 ## Product
 
-[Hardcore Bomb1](https://www.youtube.com/watch?v=ydQEb6zyAuE)
+[![Hardcore Bomb Video](http://img.youtube.com/vi/ydQEb6zyAuE/0.jpg)](http://www.youtube.com/watch?v=ydQEb6zyAuE)
 
 This is a "expert" robot written in Python to assist in playing Keep Talking and Nobody Explodes.
 
