@@ -520,7 +520,8 @@ class ComplexWiresRule(CompoundRule):
         print 'serial', serial
         print 'batteries', batteries
         final_wires = []
-        for wire in wires:
+        answer = 'cut nothing'
+        for index, wire in enumerate(wires):
             for bad, good in bad_words:
                 wire = wire.replace(bad, good)
 
@@ -533,7 +534,15 @@ class ComplexWiresRule(CompoundRule):
                 if letter in wire:
                     total += value
 
-            engine.speak(meaning[total])
+            
+            is answer == 'cut nothing':
+                answer = 'cut '
+            
+            if meaning[total] == 'cut':
+                answer += str(index+1) + ', '
+
+        engine.speak(answer)
+            # engine.speak(meaning[total])
 
 class MazeRule(CompoundRule):
     spec = "maze <maze>"                  # Spoken form of command.
