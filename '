@@ -517,10 +517,6 @@ class ComplexWiresRule(CompoundRule):
             int('1111', 2): 'dont cut'
             }
 
-        for key, val in meaning.iteritems():
-            print key, val
-
-
         bad_words = [('read', 'red'), ('blew', 'blue'), ('start', 'star'),
         ('white', 'light')]
         wire = str(extras['wires'])
@@ -1175,18 +1171,17 @@ class WordsRule(CompoundRule):
             else:
                 print 'Words', words
                 print "Found word: {}".format(select)
-                if 'one' in words.split():
+                if 'one' in words:
                     curr_wordlist = []
                     engine.speak(positions[select])
 
-                if 'two' in words.split():
+                if 'two' in words:
                     print 'select', select
                     wordlist = table[select]
                     answer = []
                     new_length = min(4, len(wordlist))
                     curr_wordlist = []
                     print wordlist
-
                     # Cache next set of words in case we need to ask for more
                     # words
                     for word in wordlist[new_length:]:
