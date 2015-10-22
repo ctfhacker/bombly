@@ -1,23 +1,9 @@
 from dragonfly import *
 from dragonfly.engines.backend_sapi5.engine import Sapi5InProcEngine
 
-from collections import defaultdict
-import sys
-import random
 
-################################################################################
-# Global variables
-################################################################################
 engine = Sapi5InProcEngine()
 engine.connect()
-
-# Battery characteristics
-batteries = 99
-freak = 'freak'
-car = 'car'
-parallel = 'parallel'
-serial = 'serial'
-vowel = 'vowel'
 
 
 def easy_answer(answer):
@@ -39,12 +25,6 @@ def easy_answer(answer):
     return curr_answer
 
 
-def odd_serial():
-    return serial in (1, 3, 5, 7, 9)
-
-def even_serial():
-    return serial in (0, 2, 4, 6, 8)
-
 def sanitize_colors(words):
     print "Sanitizing: {}".format(words)
     words = words.replace('read', 'red').replace('blew', 'blue')
@@ -62,106 +42,44 @@ class BombResetRule(CompoundRule):
     spec = "bomb reset"
 
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
-        global batteries
-        global freak
-        global car
-        global paralle
-        global serial
-        global vowel
-        global counts
-        global values
-        global positions
-        global curr_stage
-        global morse_letters
-        global on_first_words
+        from bombly.bomb import reset
+        reset()
 
-        # Battery characteristics
-        batteries = 99
-        freak = 'freak'
-        car = 'car'
-        parallel = 'parallel'
-        serial = 'serial'
-        vowel = 'vowel'
-
-        # Wire sequence
-        counts = defaultdict(int) 
-
-        # Memory
-        values = []
-        positions = []
-        curr_stage = 1
-
-        # Morse
-        morse_letters = []
-
-        # On First Words
-        on_first_words = []
-
-        # Password
-        curr_password = []
 
 class BombStatusRule(CompoundRule):
     spec = "bomb status"
 
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
-        global batteries
-        global freak
-        global car
-        global paralle
-        global serial
-        global vowel
-        global counts
-        global values
-        global positions
-        global curr_stage
-        global morse_letters
-        global on_first_words
+        from bombly.bomb import status
+        status()
 
-        # Battery characteristics
-        print 'batteries', batteries
-        print 'frk', freak
-        print 'car', car
-        print 'parallel', parallel
-        print 'serial', serial
-        print 'vowel', vowel
-
-        # Wire sequence
-        print 'wire sequence', counts
-
-        # Memory
-        print 'values', values
-        print 'position', positions
-        print 'curr_stage', curr_stage
-
-        # Morse
-        print 'morse_letters', morse_letters
-
-        # On First Words
-        print 'on first words', on_first_words
 
 class BombCarRule(CompoundRule):
     spec = "car <car>"
     extras = [IntegerRef('car', 0, 10)]
 
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
-        global car
-        car = str(extras['car'])
+        from bombly.bomb import set_car
+        set_car(extras)
+
 
 class BombBatteriesRule(CompoundRule):
     spec = "batteries <batteries>"
     extras = [IntegerRef('batteries', 0, 10)]
 
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
-        global batteries
-        batteries = int(str(extras['batteries']))
+        from bombly.bomb import set_batteries
+        set_batteries(extras)
+
 
 class BombFreakRule(CompoundRule):
     spec = "freak <word>"
     extras = [Dictation('word')]
 
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
-        global freak
-        freak = str(extras['word'])
+        from bombly.bomb import set_freak
+        set_freak(extras)
+
 
 class BombParallelRule(CompoundRule):
     spec = "parallel <word>"
@@ -170,8 +88,9 @@ class BombParallelRule(CompoundRule):
               ]
 
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
-        global parallel
-        parallel = str(extras['word'])
+        from bombly.bomb import set_parallel
+        set_parallel(extras)
+
 
 class BombSerialRule(CompoundRule):
     spec = "serial <word>"
@@ -180,8 +99,9 @@ class BombSerialRule(CompoundRule):
               ]
 
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
-        global serial
-        serial = str(extras['word'])
+        from bombly.bomb import set_serial
+        set_serial(extras)
+
 
 class BombVowelRule(CompoundRule):
     spec = "contains vowel <word>"
@@ -190,8 +110,9 @@ class BombVowelRule(CompoundRule):
               ]
 
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
-        global vowel
-        vowel = str(extras['word'])
+        from bombly.bomb import set_vowel
+        set_vowel(extras)
+
 
 # Voice command rule combining spoken form and recognition processing.
 class SimpleWiresRule(CompoundRule):
@@ -199,6 +120,7 @@ class SimpleWiresRule(CompoundRule):
     extras = [Dictation("wires")]
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
         from bombly.modules.wires import wires
+        from bombly.bomb import odd_serial
         engine.speak(wires(extras, sanitize_colors, odd_serial))
 
 class ComplexWiresRule(CompoundRule):
@@ -207,6 +129,7 @@ class ComplexWiresRule(CompoundRule):
 
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
         from bombly.modules.complicated_wires import complicated_wires
+        from bombly.bomb import batteries, serial, parallel
         engine.speak(complicated_wires(extras, batteries, serial, parallel))
 
 
@@ -224,7 +147,9 @@ class SimonRule(CompoundRule):
     extras = [Dictation("words")]
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
         from bombly.modules.simon_says import simon
+        from bombly.bomb import vowel
         engine.speak(simon(extras, vowel))
+
 
 class WireSequenceRule(CompoundRule):
     spec = "wire sequence <words>"                  # Spoken form of command.
@@ -244,6 +169,7 @@ class ButtonRule(CompoundRule):
     extras = [Dictation("words")]
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
         from bombly.modules.the_button import button
+        from bombly.bomb import batteries, car, freak
         engine.speak(button(extras, batteries, car, freak))
 
 class ButtonColorRule(CompoundRule):
@@ -346,65 +272,16 @@ class PasswordRule(CompoundRule):
 class BombDoneRule(CompoundRule):
     spec = "bomb done"                  # Spoken form of command.
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
-        lines = [
-            "I AM YOUR BOMB DEFUSING OVERLORD",
-            "BOOM SHAKALAKA",
-        ]
-        line = random.sample(lines, 1)
-        engine.speak(line)
+        from bombly.bomb import done
+        engine.speak(done())
 
-        global batteries
-        global freak
-        global car
-        global parallel
-        global serial
-        global vowel
-        global counts
-        global values
-        global positions
-        global curr_stage
-        global morse_letters
-        global on_first_words
-        global curr_wordlist
 
-        # Battery characteristics
-        batteries = 99
-        freak = 'freak'
-        car = 'car'
-        parallel = 'parallel'
-        serial = 'serial'
-        vowel = 'false'
-
-        # Wire sequence
-        counts = defaultdict(int) 
-
-        # Memory
-        values = []
-        positions = []
-        curr_stage = 1
-
-        # Morse
-        morse_letters = []
-
-        # On First Words
-        on_first_words = []
-
-        # Who's on First
-        curr_wordlist = []
-
-class BombDoneRule(CompoundRule):
+class BombExplodedRule(CompoundRule):
     spec = "bomb exploded"                  # Spoken form of command.
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
-        lines = [
-            "YOU STUPID FUCK",
-            "NOT MY FAULT!",
-            "PLANNED..",
-            "CRAP, BOMB EXPLODED",
-            "HOW CAN YOU TELL ME THAT?",
-            "IT'S ALL YOUR FAULT",
-        ]
-        line = random.sample(lines, 1)
-        engine.speak(line)
+        from bombly.bomb import exploded
+        engine.speak(exploded())
+
 
 # Create a grammar which contains and loads the command rule.
 grammar = Grammar("Keep Talking")                # Create a grammar to contain the command rule.
@@ -437,4 +314,5 @@ grammar.add_rule(WordsMoreRule())                     # Add the command rule to 
 grammar.add_rule(PasswordResetRule())                     # Add the command rule to the grammar.
 grammar.add_rule(PasswordRule())                     # Add the command rule to the grammar.
 grammar.add_rule(BombDoneRule())
+grammar.add_rule(BombExplodedRule())
 grammar.load()
