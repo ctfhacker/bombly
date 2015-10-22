@@ -267,10 +267,10 @@ def get_maze(indicator):
     return ''
 
 def odd_serial():
-    return serial in ('one', 'three', 'five', 'seven', 'nine')
+    return serial in (1, 3, 5, 7, 9)
 
 def even_serial():
-    return serial in ('zero', 'two', 'four', 'six', 'eight')
+    return serial in (0, 2, 4, 6, 8)
 
 def sanitize_colors(words):
     print "Sanitizing: {}".format(words)
@@ -403,7 +403,7 @@ class BombParallelRule(CompoundRule):
 class BombSerialRule(CompoundRule):
     spec = "serial <word>"
     extras = [
-              Dictation('word'),
+              IntegerRef('word', 0, 10),
               ]
 
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
@@ -411,7 +411,7 @@ class BombSerialRule(CompoundRule):
         serial = str(extras['word'])
 
 class BombVowelRule(CompoundRule):
-    spec = "vowel <word>"
+    spec = "contains vowel <word>"
     extras = [
               Dictation('word')
               ]
@@ -425,12 +425,14 @@ class SimpleWiresRule(CompoundRule):
     spec = "simple wires <wires>"                  # Spoken form of command.
     extras = [Dictation("wires")]
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
+        """
         spoken = 'need'
         if serial == 'serial':
             spoken += ' last digit of serial'
         if spoken != 'need':
             engine.speak(spoken)
             return
+        """
 
         wire = str(extras['wires'])
         wire = sanitize_colors(wire)
@@ -487,6 +489,7 @@ class ComplexWiresRule(CompoundRule):
         global batteries
         global serial
         global parallel
+        """
         spoken = 'need'
         if batteries == 99:
             spoken += ' batteries'
@@ -497,6 +500,7 @@ class ComplexWiresRule(CompoundRule):
         if spoken != 'need':
             engine.speak(spoken)
             return
+        """
 
         meaning = {
             int('0000', 2): 'cut',
@@ -590,9 +594,9 @@ class SimonRule(CompoundRule):
     extras = [Dictation("words")]
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
         print str(extras['words'])
-        if vowel == 'vowel':
-            engine.speak("Serial contain vowel?")
-            return
+        # if vowel == 'vowel':
+            # engine.speak("Serial contain vowel?")
+            # return
 
         words = str(extras['words'])
         print words
@@ -664,6 +668,7 @@ class ButtonRule(CompoundRule):
     spec = "button <words>"                  # Spoken form of command.
     extras = [Dictation("words")]
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
+        """
         spoken = 'need'
         print "Batteries: {}".format(batteries)
         print "Freak: {}".format(freak)
@@ -677,6 +682,7 @@ class ButtonRule(CompoundRule):
         if spoken != 'need':
             engine.speak(spoken)
             return
+        """
 
         words = str(extras['words'])
         print words
@@ -944,12 +950,12 @@ class SymbolsRule(CompoundRule):
         symbols = str(extras['symbols'])
 
         groups = [
-            ['tennis', 'a', 'l', 'lightning', 'cat', 'h', 'c'],
-            ['e', 'tennis', 'c', 'o', 'star', 'h', 'question'],
-            ['copyright', 'but', 'o', 'k', 'r', 'l', 'star'],
-            ['six', 'paragraph', 'b', 'cat', 'k', 'question', 'smile'],
-            ['goblet', 'smile', 'b', 'c', 'paragraph', 'three', 'star'],
-            ['six', 'e', 'equals', 'smash', 'goblet', 'in', 'omega']
+            ['tennis', 'apple', 'a', 'l', 'lightning', 'spider', 'h', 'house', 'c', 'charlie'],
+            ['e', 'echo', 'tennis', 'c', 'charlie', 'o', 'oscar', 'starr', 'star', 'h', 'house', 'question'],
+            ['copyright', 'but', 'butt', 'o', 'oscar', 'k', 'r', 'romeo', 'l', 'starr', 'star'],
+            ['six', 'paragraph', 'b', 'bravo', 'spider', 'k', 'question', 'smile'],
+            ['goblet', 'smile', 'b', 'bravo', 'c', 'charlie', 'paragraph', 'three', 'star'],
+            ['six', 'e', 'echo', 'equals', 'smash', 'goblet', 'in', 'omega']
         ]
 
         print symbols
@@ -1003,7 +1009,7 @@ class WordsRule(CompoundRule):
             ('literally', 'nothing'): ' ',
             ('blank',): 'blank',
             ('no',): 'no',
-            ("lima", "echo", "delta"): 'led',
+            ('L. E. D.'): 'led',
             ('lead',): 'lead',
             ('mead',): 'lead',
             ('read',): 'read',
@@ -1019,7 +1025,7 @@ class WordsRule(CompoundRule):
             ('you', 'are', 'mark'): "you're",
             ('you', 'are', 'contraction'): "you're",
             ('you', 'are', 'apostrophe'): "you're",
-            ("sierra", "echo", "echo"): "see",
+            ("Sierra", "echo", "echo"): "see",
             ('they', 'are', 'words'): "they are",
             ("echo", "india", "romeo"): "their",
             ("echo", "romeo", "echo"): "there",
@@ -1029,8 +1035,8 @@ class WordsRule(CompoundRule):
             ('they', 'mark'): "they're",
             ('their', 'mark'): "they're",
             ('there', 'mark'): "they're",
-            ('sierra', 'echo', 'echo'): "see",
-            ('charlie'): "c",
+            ('Sierra', 'echo', 'echo'): "see",
+            ('charlie',): "c",
             ('see', 'letter'): "c",
             ('charlie', 'echo', 'echo'): "cee",
             ('ready',): 'ready',
@@ -1048,7 +1054,7 @@ class WordsRule(CompoundRule):
             ('five', 'letters'): 'uh huh',
             ('hotel', 'uniform', 'hotel'): 'uh huh',
             ('four', 'letters'): 'uh uh',
-            ('uniform', 'hotle'): 'uh uh',
+            ('uniform', 'hotel'): 'uh uh',
             ('what', 'mark'): 'what?',
             ('done',): 'done',
             ('next',): 'next',
@@ -1148,7 +1154,7 @@ class WordsRule(CompoundRule):
             "hold on": ("hold", "on", "two"),
             "your": ("your", "word"),
             "you're": ("you", "are", "mark"),
-            "see": ("sierra", "echo", "echo"),
+            "see": ("Sierra", "echo", "echo"),
             "they are": ("they", "are", "words"),
             "their": ("E.", "I.", "R."),
             "there": ("E.", "R.", "E."),
@@ -1276,7 +1282,7 @@ class BombDoneRule(CompoundRule):
         car = 'car'
         parallel = 'parallel'
         serial = 'serial'
-        vowel = 'vowel'
+        vowel = 'false'
 
         # Wire sequence
         counts = defaultdict(int) 
