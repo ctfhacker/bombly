@@ -397,36 +397,8 @@ class SimonRule(CompoundRule):
     spec = "simon <words>"                  # Spoken form of command.
     extras = [Dictation("words")]
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
-        print str(extras['words'])
-        # if vowel == 'vowel':
-            # engine.speak("Serial contain vowel?")
-            # return
-
-        words = str(extras['words'])
-        print words
-        words = words.replace('read', 'red').replace('blew', 'blue')
-        words = [word for word in words.split() if word in ('blue', 'yellow', 'red', 'green')]
-
-        new_words = []
-        print "Your words: {}".format(words)
-        if vowel in ('true', 'yes'):
-            colors = {'red': 'blue', 
-                      'blue': 'red',
-                      'green': 'yellow', 
-                      'yellow': 'green'}
-            for word in words:
-                new_words.append(colors[word])
-        else:
-            colors = {'red': 'blue', 
-                      'blue': 'yellow',
-                      'green': 'green', 
-                      'yellow': 'red'}
-            for word in words:
-                new_words.append(colors[word])
-        
-        new_words = ' '.join(new_words)
-        print "My words: {}".format(new_words)
-        engine.speak(new_words)
+        from bombly.modules.simon_says import simon
+        engine.speak(simon(extras, vowel))
 
 class WireSequenceRule(CompoundRule):
     spec = "wire sequence <words>"                  # Spoken form of command.
