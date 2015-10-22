@@ -328,55 +328,15 @@ class ButtonRule(CompoundRule):
     spec = "button <words>"                  # Spoken form of command.
     extras = [Dictation("words")]
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
-        """
-        spoken = 'need'
-        print "Batteries: {}".format(batteries)
-        print "Freak: {}".format(freak)
-        print "Car: {}".format(car)
-        if batteries == 99:
-            spoken += ' batteries'
-        if freak == 'freak':
-            spoken += ' freak'
-        if car == 'car':
-            spoken += ' car identifier'
-        if spoken != 'need':
-            engine.speak(spoken)
-            return
-        """
-
-        words = str(extras['words'])
-        print words
-        words = words.replace('read', 'red').replace('blew', 'blue')
-        print words
-        if 'blue' in words and 'abort' in words:
-            engine.speak('Press and hold')
-        elif 'detonate' in words and batteries > 1:
-            engine.speak('Press and release')
-        elif 'white' in words and car in ('true', 'yes'):
-            engine.speak('Press and hold')
-        elif batteries > 2 and freak in ('true', 'yes'):
-            engine.speak('Press and release')
-        elif 'yellow' in words:
-            engine.speak('Press and hold')
-        elif 'red' in words and 'hold' in words:
-            engine.speak('Press and release')
-        else:
-            engine.speak('Press and hold')
+        from bombly.modules.the_button import button
+        engine.speak(button(extras, batteries, car, freak))
 
 class ButtonColorRule(CompoundRule):
     spec = "button color <words>"                  # Spoken form of command.
     extras = [Dictation("words")]
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
-        words = str(extras['words'])
-        print words
-        words = words.replace('read', 'red').replace('blew', 'blue')
-        print words
-        if 'blue' in words:
-            engine.speak('four')
-        elif 'yellow' in words:
-            engine.speak('five')
-        else:
-            engine.speak('one')
+        from bombly.modules.the_button import button_color
+        engine.speak(button_color(extras))
 
 class KnobsRule(CompoundRule):
     spec = "knobs <words>"                  # Spoken form of command.
