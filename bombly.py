@@ -214,60 +214,8 @@ class SimpleWiresRule(CompoundRule):
     spec = "simple wires <wires>"                  # Spoken form of command.
     extras = [Dictation("wires")]
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
-        """
-        spoken = 'need'
-        if serial == 'serial':
-            spoken += ' last digit of serial'
-        if spoken != 'need':
-            engine.speak(spoken)
-            return
-        """
-
-        wire = str(extras['wires'])
-        wire = sanitize_colors(wire)
-        wire = wire.split()
-        
-        if len(wire) == 3:
-            if 'red' not in wire:
-                engine.speak('cut second wire')
-            elif wire[-1] == 'white':
-                engine.speak('cut last wire')
-            elif wire.count('blue') > 1:
-                engine.speak('cut last blue wire')
-            else:
-                engine.speak('cut last wire')
-
-        elif len(wire) == 4:
-            if wire.count('red') > 1 and odd_serial():
-                engine.speak('cut last red wire')
-            elif wire[-1] == 'yellow' and wire.count('red') == 0:
-                engine.speak('cut first wire')
-            elif wire.count('blue') == 1:
-                engine.speak('cut first wire')
-            elif wire.count('yellow') > 1:
-                engine.speak('cut last wire')
-            else:
-                engine.speak('cut second wire')
-
-        elif len(wire) == 5:
-            if wire[-1] == 'black' and odd_serial():
-                engine.speak('cut fourth wire')
-            elif wire.count('red') and wire.count('yellow') > 1:
-                engine.speak('cut first wire')
-            elif wire.count('black') == 0:
-                engine.speak('cut second wire')
-            else:
-                engine.speak('cut first wire')
-
-        elif len(wire) == 6:
-            if wire.count('yellow') == 0 and odd_serial():
-                engine.speak('cut third wire')
-            elif wire.count('yellow') == 1 and wire.count('white') > 1:
-                engine.speak('cut fourth wire')
-            elif wire.count('red') == 0:
-                engine.speak('cut last wire')
-            else:
-                engine.speak('cut fourth wire')
+        from bombly.modules.wires import wires
+        engine.speak(wires(extras, sanitize_colors, odd_serial))
 
 class ComplexWiresRule(CompoundRule):
     spec = "complex wires <wires>"                  # Spoken form of command.
