@@ -20,43 +20,6 @@ serial = 'serial'
 vowel = 'vowel'
 
 
-# Wire sequence
-counts = defaultdict(int) 
-sequences = {}
-sequences['red'] = [
-    ('c'),
-    ('b'),
-    ('a'),
-    ('a', 'c'),
-    ('b'),
-    ('a', 'c'),
-    ('a', 'b', 'c'),
-    ('a', 'b'),
-    ('b')
-    ]
-sequences['blue'] = [
-    ('b'),
-    ('a', 'c'),
-    ('b'),
-    ('a'),
-    ('b'),
-    ('b','c'),
-    ('c'),
-    ('a', 'c'),
-    ('a')
-    ]
-sequences['black'] = [
-    ('a', 'b', 'c'),
-    ('a', 'c'),
-    ('b'),
-    ('a', 'c'),
-    ('b'),
-    ('b', 'c'),
-    ('a', 'b'),
-    ('c'),
-    ('c')
-    ]
-
 # Memory
 values = []
 positions = []
@@ -404,41 +367,14 @@ class WireSequenceRule(CompoundRule):
     spec = "wire sequence <words>"                  # Spoken form of command.
     extras = [Dictation("words")]
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
-        global sequences
-        words = str(extras['words'])
-        print words
-        words = words.replace('read', 'red').replace('blew', 'blue')
-        print words
-        words = [word for word in words.split() if word in ('red', 'blue', 'black', 'apple', 'bravo', 'charlie')]
-        print words
-        words = [words[x:x+2] for x in xrange(0, len(words), 2)]
-        print words
-        answer = []
-        for index, item in enumerate(words):
-            print index, item
-            color, letter = item
-            print "Color: {}".format(color)
-            print "Letter: {}".format(letter)
-            print "Count: {}".format(counts[color])
-            print sequences[color]
-            print counts[color]
-            print sequences[color][counts[color]]
-            print sequences[color][counts[color]]
-            if letter[0] in sequences[color][counts[color]]:
-                answer.append(str(index+1))
-
-            counts[color] += 1
-
-        if not answer:
-            engine.speak('cut nothing')
-        else:
-            engine.speak(', '.join(answer))
+        from bombly.modules.wire_sequences import wire_sequence
+        engine.speak(wire_sequence(extras))
 
 class WireSequenceResetRule(CompoundRule):
     spec = "wire sequence reset"                  # Spoken form of command.
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
-        global counts
-        counts = defaultdict(int) 
+        from bombly.modules.wire_sequences import reset
+        reset()
 
 class ButtonRule(CompoundRule):
     spec = "button <words>"                  # Spoken form of command.
