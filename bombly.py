@@ -3,6 +3,7 @@ from dragonfly.engines.backend_sapi5.engine import Sapi5InProcEngine
 
 from collections import defaultdict
 import sys
+import random
 
 ################################################################################
 # Global variables
@@ -1260,7 +1261,12 @@ class PasswordRule(CompoundRule):
 class BombDoneRule(CompoundRule):
     spec = "bomb done"                  # Spoken form of command.
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
-        engine.speak("I AM YOUR BOMB DEFUSING OVERLORD")
+        lines = [
+            "I AM YOUR BOMB DEFUSING OVERLORD",
+            "BOOM SHAKALAKA",
+        ]
+        line = random.sample(lines, 1)
+        engine.speak(line)
 
         global batteries
         global freak
@@ -1300,6 +1306,20 @@ class BombDoneRule(CompoundRule):
 
         # Who's on First
         curr_wordlist = []
+
+class BombDoneRule(CompoundRule):
+    spec = "bomb exploded"                  # Spoken form of command.
+    def _process_recognition(self, node, extras):   # Callback when command is spoken.
+        lines = [
+            "YOU STUPID FUCK",
+            "NOT MY FAULT!",
+            "PLANNED..",
+            "CRAP, BOMB EXPLODED",
+            "HOW CAN YOU TELL ME THAT?",
+            "IT'S ALL YOUR FAULT",
+        ]
+        line = random.sample(lines, 1)
+        engine.speak(line)
 
 # Create a grammar which contains and loads the command rule.
 grammar = Grammar("Keep Talking")                # Create a grammar to contain the command rule.
