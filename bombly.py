@@ -20,10 +20,6 @@ serial = 'serial'
 vowel = 'vowel'
 
 
-# Password
-curr_password = []
-
-
 def easy_answer(answer):
     count = 0
     curr_letter = answer[0]
@@ -358,37 +354,18 @@ class WordsMoreRule(CompoundRule):
 class PasswordResetRule(CompoundRule):
     spec = "password reset"                  # Spoken form of command.
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
-        global curr_password
-        curr_password = []
-        print curr_password
+        from bombly.modules.passwords import reset
+        reset()
+
 
 class PasswordRule(CompoundRule):
     spec = "password <letters>"                  # Spoken form of command.
     extras = [Dictation("letters")]
     def _process_recognition(self, node, extras):   # Callback when command is spoken.
-        global curr_password
-        letters = str(extras['letters'])
-        letters = [letter[0].lower() for letter in letters.split()]
-        curr_password.append(letters)
-        print curr_password
-
-        passwords = ['about',
-        'after', 'again', 'below', 'could', 'every', 'first', 'found', 'great',
-        'house', 'large', 'learn', 'never', 'other', 'place', 'plant', 'point',
-        'right', 'small', 'sound', 'spell', 'still', 'study', 'their', 'there',
-        'these', 'thing', 'think', 'three', 'water', 'where', 'which', 'world',
-        'would', 'write']
-
-        possibles = []
-        if len(curr_password) == 2:
-            for password in passwords:
-                if password[0] in curr_password[0] and password[2] in curr_password[1]:
-                    possibles.append(password)
-
-            print possibles
-
-        for word in possibles:
+        from bombly.modules.passwords import solve_password
+        for word in solve_password(extras):
             engine.speak(word)
+            
 
 class BombDoneRule(CompoundRule):
     spec = "bomb done"                  # Spoken form of command.
