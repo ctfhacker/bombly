@@ -104,7 +104,7 @@ class BombSerialRule(CompoundRule):
 
 
 class BombVowelRule(CompoundRule):
-    spec = "contains vowel <word>"
+    spec = "set vowel <word>"
     extras = [
               Dictation('word')
               ]

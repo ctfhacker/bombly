@@ -17,23 +17,22 @@ def complicated_wires(extras, batteries, serial, parallel):
         int('0001', 2): 'dont cut',
         int('0010', 2): 'cut',
         int('0011', 2): 'cut' if batteries > 1 else 'dont cut',
-        int('0100', 2): 'cut' if serial in ('zero', 'two', 'four', 'six', 'eight') else 'dont cut',
+        int('0100', 2): 'cut' if serial in (0, 2, 4, 6, 8) else 'dont cut',
         int('0101', 2): 'cut' if parallel in ('true', 'yes') else 'dont cut',
         int('0110', 2): 'dont cut',
         int('0111', 2): 'cut' if parallel in ('true', 'yes') else 'dont cut',
-        int('1000', 2): 'cut' if serial in ('zero', 'two', 'four', 'six', 'eight') else 'dont cut',
+        int('1000', 2): 'cut' if serial in (0, 2, 4, 6, 8) else 'dont cut',
         int('1001', 2): 'cut' if batteries > 1 else 'dont cut',
         int('1010', 2): 'cut',
         int('1011', 2): 'cut' if batteries > 1 else 'dont cut',
-        int('1100', 2): 'cut' if serial in ('zero', 'two', 'four', 'six', 'eight') else 'dont cut',
-        int('1101', 2): 'cut' if serial in ('zero', 'two', 'four', 'six', 'eight') else 'dont cut',
+        int('1100', 2): 'cut' if serial in (0, 2, 4, 6, 8) else 'dont cut',
+        int('1101', 2): 'cut' if serial in (0, 2, 4, 6, 8) else 'dont cut',
         int('1110', 2): 'cut' if parallel in ('true', 'yes') else 'dont cut',
         int('1111', 2): 'dont cut'
         }
 
     for key, val in meaning.iteritems():
         print key, val
-
 
     bad_words = [('read', 'red'), ('blew', 'blue'), ('start', 'star'),
     ('white', 'light')]

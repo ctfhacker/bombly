@@ -194,7 +194,7 @@ def solve_maze(extras):
     finish = tuple([int(x) for x in maze[4:6]])
 
     if len(indicator) != 2 or len(start) != 2 or len(finish) != 2:
-        return 'Try maze again'
+        return ['Try Maze Again',]
 
     maze = get_maze(indicator)
     print maze

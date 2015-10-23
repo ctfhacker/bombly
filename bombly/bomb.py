@@ -39,7 +39,7 @@ def set_parallel(extras):
 
 def set_serial(extras):
     global serial
-    serial = str(extras['word'])
+    serial = extras['word']
 
 
 def set_vowel(extras):
