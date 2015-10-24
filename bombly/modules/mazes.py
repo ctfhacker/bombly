@@ -1,4 +1,5 @@
 from collections import defaultdict
+from Queue import Queue
 
 mazes = {
 (('1','2'), ('6','3')): """
@@ -126,6 +127,9 @@ def get_maze_dict(maze):
     maze = maze[1:]
     maze = maze.split('\n')
 
+    # Ensure all lines have enough spacing to fill the maze
+    maze = [row.ljust(12, ' ') for row in maze]
+
     for row_index, line in enumerate(maze):
         for col_index, item in enumerate(line):
             if item == 'x':
@@ -156,20 +160,25 @@ def get_maze_dict(maze):
 
 
 def traverse_maze(maze_dict, start, finish):
-    path = [[('x', start)]]
-    while True:
-        for curr_path in path:
-            temp_path = curr_path[:]
-            new_paths = maze_dict[temp_path[-1][1]]
-            for new_path in new_paths:
-                if finish == new_path[1]:
-                    answer = ''
-                    for pair in (temp_path + [new_path])[1:]:
-                        answer += pair[0]
+    path = Queue()
+    path.put([('x', start)])
+    loop = {'D': 'U', 'U': 'D', 'L':'R', 'R':'L', 'x':''}
+    while not path.empty():
+        curr_path = path.get()
+        temp_path = curr_path[:]
+        new_paths = maze_dict[temp_path[-1][1]]
+        # Check that we are not looping back and forth
+        new_paths = [place for place in new_paths if place[0] != loop[curr_path[-1][0]]]
+        for new_path in new_paths:
+            if finish == new_path[1]:
+                answer = ''
+                for pair in (temp_path + [new_path])[1:]:
+                    answer += pair[0]
 
-                    return answer
-                else:
-                    path.append(temp_path + [new_path])
+                return answer
+            else:
+                path.put(temp_path + [new_path])
+    return None
 
 
 def get_maze(indicator):

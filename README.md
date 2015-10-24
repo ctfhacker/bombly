@@ -4,6 +4,8 @@
 
 [![Hardcore Bomb Video](http://img.youtube.com/vi/ydQEb6zyAuE/0.jpg)](http://www.youtube.com/watch?v=ydQEb6zyAuE)
 
+### THIS IS BETA.. USE AT YOUR OWN RISK
+
 This is a "expert" robot written in Python to assist in playing Keep Talking and Nobody Explodes.
 
 In its traditional form, the bomb defuse talks with an expert who holds the [Bomb Manual](http://www.bombmanual.com). Based on the information given by the defuser, the expert scrambles through the manual give information back to the defuser to correctly secure the bomb.
